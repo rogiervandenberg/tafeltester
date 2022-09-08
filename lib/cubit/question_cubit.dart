@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
-import 'package:tafeltester/cubit/score_cubit.dart';
+import 'package:flutter/foundation.dart';
 import 'package:tafeltester/models/multiplication.dart';
 
 part 'question_state.dart';
@@ -35,16 +34,19 @@ class QuestionCubit extends Cubit<QuestionState> {
   void giveAnswer(int answer) {
     if (answer != currentExercise.solution) {
       // Wrong answer
-      ScoreCubit().decrement();
+      // ScoreCubit().decrement();
       multiplications.add(currentExercise);
       multiplications.shuffle();
     } else {
-      ScoreCubit().increment();
+      // ScoreCubit().increment();
     }
     changeQuestion();
   }
 
   void start() {
+    if (kDebugMode) {
+      print("start");
+    }
     setMultiplications();
     changeQuestion();
   }

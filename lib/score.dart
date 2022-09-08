@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tafeltester/cubit/score_cubit.dart';
 
 class Score extends StatelessWidget {
-  Score({super.key});
+  const Score({super.key});
 
   @override
   Widget build(BuildContext context) {

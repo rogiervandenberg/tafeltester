@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tafeltester/cubit/question_cubit.dart';
 import 'package:tafeltester/cubit/score_cubit.dart';
-import 'package:tafeltester/score.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,10 +30,13 @@ class MyApp extends StatelessWidget {
         home: MultiBlocProvider(
           providers: [
             BlocProvider<QuestionCubit>(
+              lazy: false,
               create: (context) => QuestionCubit(),
             ),
             BlocProvider<ScoreCubit>(
-              create: (context) => ScoreCubit(),
+              lazy: false,
+              create: (context) => ScoreCubit(
+                  questionCubit: BlocProvider.of<QuestionCubit>(context)),
             ),
           ],
           child: BlocBuilder<QuestionCubit, QuestionState>(
@@ -59,7 +61,7 @@ class MyApp extends StatelessWidget {
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          for (var i in state.question!.answerOptions())
+                          for (var i in state.question.answerOptions())
                             TextButton(
                                 onPressed: () =>
                                     context.read<QuestionCubit>().giveAnswer(i),
