@@ -58,6 +58,21 @@ class MyApp extends StatelessWidget {
                         right: 16.0,
                         child: Score(),
                       ),
+                      Positioned(
+                        bottom: 16.0,
+                        right: 16.0,
+                        child: TextButton(
+                            onPressed: () =>
+                                context.read<QuestionCubit>().start(),
+                            child: const SizedBox(
+                              width: 100.0,
+                              child: Center(
+                                child: Text(
+                                  "Begin opnieuw",
+                                ),
+                              ),
+                            )),
+                      ),
                       Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -88,10 +103,15 @@ class MyApp extends StatelessWidget {
                                           onPressed: () => context
                                               .read<QuestionCubit>()
                                               .giveAnswer(i),
-                                          child: Text(
-                                            i.toString(),
-                                            style:
-                                                const TextStyle(fontSize: 72),
+                                          child: SizedBox(
+                                            width: 100.0,
+                                            child: Center(
+                                              child: Text(
+                                                i.toString(),
+                                                style: const TextStyle(
+                                                    fontSize: 72),
+                                              ),
+                                            ),
                                           )),
                                     ),
                                 ],

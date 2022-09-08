@@ -15,8 +15,8 @@ class QuestionCubit extends Cubit<QuestionState> {
 
   void setMultiplications() {
     // List<int> tablesToPractice = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    // List<int> tablesToPractice = [3, 4, 6, 7, 8];
-    List<int> tablesToPractice = [1];
+    List<int> tablesToPractice = [3, 2, 5];
+    // List<int> tablesToPractice = [1];
 
     for (var table in tablesToPractice) {
       for (var i = 1; i <= 10; i++) {
@@ -24,7 +24,7 @@ class QuestionCubit extends Cubit<QuestionState> {
             Multiplication(factorX: i, factorY: table, solution: i * table));
       }
     }
-    // multiplications.shuffle();
+    multiplications.shuffle();
   }
 
   void changeQuestion({required bool previousWasCorrect}) {
@@ -56,9 +56,7 @@ class QuestionCubit extends Cubit<QuestionState> {
   }
 
   void start() {
-    if (kDebugMode) {
-      print("start");
-    }
+    reset();
     setMultiplications();
     // changeQuestion(previousWasCorrect: true);
     currentExercise = multiplications.removeLast();
@@ -66,5 +64,9 @@ class QuestionCubit extends Cubit<QuestionState> {
       multiplication: currentExercise,
       previousWasCorrect: true,
     )));
+  }
+
+  void reset() {
+    emit(QuestionReset());
   }
 }

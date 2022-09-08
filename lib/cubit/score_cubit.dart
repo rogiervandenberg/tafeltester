@@ -8,7 +8,7 @@ class ScoreCubit extends Cubit<int> {
   final QuestionCubit questionCubit;
   late StreamSubscription questionSubscription;
 
-  ScoreCubit({required this.questionCubit}) : super(-1) {
+  ScoreCubit({required this.questionCubit}) : super(0) {
     monitorQuestionsAnswered();
   }
 
@@ -23,6 +23,10 @@ class ScoreCubit extends Cubit<int> {
       }
 
       if (questionState is FirstQuestion) {
+        emit(0);
+      }
+
+      if (questionState is QuestionReset) {
         emit(0);
       }
     });
