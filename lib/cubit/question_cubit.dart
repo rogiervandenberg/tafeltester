@@ -2,6 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:tafeltester/models/multiplication.dart';
 
+import '../models/assignment.dart';
+
 part 'question_state.dart';
 
 class QuestionCubit extends Cubit<QuestionState> {
@@ -13,7 +15,8 @@ class QuestionCubit extends Cubit<QuestionState> {
 
   void setMultiplications() {
     // List<int> tablesToPractice = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    List<int> tablesToPractice = [3, 4, 6, 7, 8];
+    // List<int> tablesToPractice = [3, 4, 6, 7, 8];
+    List<int> tablesToPractice = [1];
 
     for (var table in tablesToPractice) {
       for (var i = 1; i <= 10; i++) {
@@ -24,11 +27,22 @@ class QuestionCubit extends Cubit<QuestionState> {
     multiplications.shuffle();
   }
 
-  void changeQuestion() {
+  void changeQuestion({required bool previousWasCorrect}) {
     if (multiplications.isNotEmpty) {
       currentExercise = multiplications.removeLast();
     }
-    emit(QuestionChanged(currentExercise));
+
+    if (multiplications.isNotEmpty) {
+      emit(AnswerGiven(Assignment(
+        multiplication: currentExercise,
+        previousWasCorrect: previousWasCorrect,
+      )));
+    } else {
+      emit(LastAnswerGiven(Assignment(
+        multiplication: currentExercise,
+        previousWasCorrect: previousWasCorrect,
+      )));
+    }
   }
 
   void giveAnswer(int answer) {
@@ -37,10 +51,11 @@ class QuestionCubit extends Cubit<QuestionState> {
       // ScoreCubit().decrement();
       multiplications.add(currentExercise);
       multiplications.shuffle();
+      changeQuestion(previousWasCorrect: false);
     } else {
       // ScoreCubit().increment();
+      changeQuestion(previousWasCorrect: true);
     }
-    changeQuestion();
   }
 
   void start() {
@@ -48,6 +63,11 @@ class QuestionCubit extends Cubit<QuestionState> {
       print("start");
     }
     setMultiplications();
-    changeQuestion();
+    // changeQuestion(previousWasCorrect: true);
+    currentExercise = multiplications.removeLast();
+    emit(FirstQuestion(Assignment(
+      multiplication: currentExercise,
+      previousWasCorrect: true,
+    )));
   }
 }

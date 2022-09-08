@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tafeltester/cubit/question_cubit.dart';
 import 'package:tafeltester/cubit/score_cubit.dart';
+import 'package:tafeltester/score.dart';
 
 void main() {
   runApp(const MyApp());
@@ -50,24 +51,27 @@ class MyApp extends StatelessWidget {
                 body: Column(
                   children: [
                     // Score(),
-                    if (state is QuestionChanged)
-                      Text(state.question.toString()),
-                    if (state is QuestionInitial)
+                    if (state is QuestionLoaded && state is! LastAnswerGiven)
+                      Text(state.assignment.toString()),
+                    if (state is QuestionInitial || state is LastAnswerGiven)
                       TextButton(
                           onPressed: () =>
                               context.read<QuestionCubit>().start(),
                           child: const Text("Start")),
-                    if (state is QuestionChanged)
+                    if (state is QuestionLoaded && state is! LastAnswerGiven)
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          for (var i in state.question.answerOptions())
+                          for (var i in state.assignment.multiplication
+                              .answerOptions())
                             TextButton(
                                 onPressed: () =>
                                     context.read<QuestionCubit>().giveAnswer(i),
                                 child: Text(i.toString())),
                         ],
                       ),
+                    const Score(),
+                    if (state is LastAnswerGiven) const Text("Klaar"),
                   ],
                 ),
               );
