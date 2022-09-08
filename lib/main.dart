@@ -43,12 +43,13 @@ class MyApp extends StatelessWidget {
                 appBar: AppBar(
                   // Here we take the value from the MyHomePage object that was created by
                   // the App.build method, and use it to set our appbar title.
-                  title: Text(state.question.toString()),
+                  title: const Text("Tafels!"),
                 ),
                 body: Column(
                   children: [
                     // Score(),
-                    Text(state.question.toString()),
+                    if (state is QuestionChanged)
+                      Text(state.question.toString()),
                     if (state is QuestionInitial)
                       TextButton(
                           onPressed: () =>
@@ -56,6 +57,7 @@ class MyApp extends StatelessWidget {
                           child: const Text("Start")),
                     if (state is QuestionChanged)
                       Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           for (var i in state.question!.answerOptions())
                             TextButton(

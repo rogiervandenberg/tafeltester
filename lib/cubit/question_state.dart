@@ -1,16 +1,11 @@
 part of 'question_cubit.dart';
 
-// @immutable
-abstract class QuestionState {
-  Multiplication? question;
-  QuestionState(this.question);
-}
+@immutable
+abstract class QuestionState {}
 
-class QuestionInitial extends QuestionState {
-  QuestionInitial() : super(null);
-}
+class QuestionInitial extends QuestionState {}
 
 class QuestionChanged extends QuestionState {
-  final Multiplication newQuestion;
-  QuestionChanged(this.newQuestion) : super(newQuestion);
+  final Multiplication question;
+  QuestionChanged(this.question);
 }
