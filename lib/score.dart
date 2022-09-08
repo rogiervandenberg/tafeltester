@@ -11,7 +11,7 @@ class Score extends StatelessWidget {
     return Center(
       child: BlocBuilder<ScoreCubit, int>(
         builder: (context, state) {
-          return Text('$state', style: textTheme.headline2);
+          return Text('Score: $state', style: textTheme.headline2);
         },
       ),
     );

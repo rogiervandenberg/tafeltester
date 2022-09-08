@@ -14,13 +14,15 @@ class ScoreCubit extends Cubit<int> {
 
   StreamSubscription<QuestionState> monitorQuestionsAnswered() {
     return questionSubscription = questionCubit.stream.listen((questionState) {
-      if (questionState is AnswerGiven) {
+      if (questionState is QuestionLoaded) {
         if (questionState.assignment.previousWasCorrect) {
           increment();
         } else {
           decrement();
         }
-      } else if (questionState is FirstQuestion) {
+      }
+
+      if (questionState is FirstQuestion) {
         emit(0);
       }
     });

@@ -43,36 +43,66 @@ class MyApp extends StatelessWidget {
           child: BlocBuilder<QuestionCubit, QuestionState>(
             builder: (context, state) {
               return Scaffold(
-                appBar: AppBar(
-                  // Here we take the value from the MyHomePage object that was created by
-                  // the App.build method, and use it to set our appbar title.
-                  title: const Text("Tafels!"),
-                ),
-                body: Column(
-                  children: [
-                    // Score(),
-                    if (state is QuestionLoaded && state is! LastAnswerGiven)
-                      Text(state.assignment.toString()),
-                    if (state is QuestionInitial || state is LastAnswerGiven)
-                      TextButton(
-                          onPressed: () =>
-                              context.read<QuestionCubit>().start(),
-                          child: const Text("Start")),
-                    if (state is QuestionLoaded && state is! LastAnswerGiven)
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          for (var i in state.assignment.multiplication
-                              .answerOptions())
-                            TextButton(
-                                onPressed: () =>
-                                    context.read<QuestionCubit>().giveAnswer(i),
-                                child: Text(i.toString())),
-                        ],
+                backgroundColor: Colors.purple[900],
+                // appBar: AppBar(
+                //   // Here we take the value from the MyHomePage object that was created by
+                //   // the App.build method, and use it to set our appbar title.
+                //   title: const Text("Tafels!"),
+                // ),
+                body: SizedBox(
+                  width: double.infinity,
+                  child: Stack(
+                    children: [
+                      const Positioned(
+                        top: 16.0,
+                        right: 16.0,
+                        child: Score(),
                       ),
-                    const Score(),
-                    if (state is LastAnswerGiven) const Text("Klaar"),
-                  ],
+                      Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // Score(),
+                            if (state is QuestionLoaded &&
+                                state is! LastAnswerGiven)
+                              Text(
+                                state.assignment.toString(),
+                                style: const TextStyle(fontSize: 96),
+                              ),
+                            if (state is QuestionInitial ||
+                                state is LastAnswerGiven)
+                              TextButton(
+                                  onPressed: () =>
+                                      context.read<QuestionCubit>().start(),
+                                  child: const Text("Start")),
+                            if (state is QuestionLoaded &&
+                                state is! LastAnswerGiven)
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  for (var i in state.assignment.multiplication
+                                      .answerOptions())
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ElevatedButton(
+                                          onPressed: () => context
+                                              .read<QuestionCubit>()
+                                              .giveAnswer(i),
+                                          child: Text(
+                                            i.toString(),
+                                            style:
+                                                const TextStyle(fontSize: 72),
+                                          )),
+                                    ),
+                                ],
+                              ),
+
+                            if (state is LastAnswerGiven) const Text("Klaar"),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },

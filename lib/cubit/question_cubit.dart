@@ -24,15 +24,12 @@ class QuestionCubit extends Cubit<QuestionState> {
             Multiplication(factorX: i, factorY: table, solution: i * table));
       }
     }
-    multiplications.shuffle();
+    // multiplications.shuffle();
   }
 
   void changeQuestion({required bool previousWasCorrect}) {
     if (multiplications.isNotEmpty) {
       currentExercise = multiplications.removeLast();
-    }
-
-    if (multiplications.isNotEmpty) {
       emit(AnswerGiven(Assignment(
         multiplication: currentExercise,
         previousWasCorrect: previousWasCorrect,
