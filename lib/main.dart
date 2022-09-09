@@ -71,21 +71,22 @@ class MyApp extends StatelessWidget {
                       right: 16.0,
                       child: Score(),
                     ),
-                    Positioned(
-                      bottom: 16.0,
-                      right: 16.0,
-                      child: TextButton(
-                          onPressed: () =>
-                              context.read<QuestionCubit>().start(),
-                          child: const SizedBox(
-                            width: 100.0,
-                            child: Center(
-                              child: Text(
-                                "Begin opnieuw",
+                    if (state is QuestionLoaded)
+                      Positioned(
+                        bottom: 16.0,
+                        right: 16.0,
+                        child: TextButton(
+                            onPressed: () =>
+                                context.read<QuestionCubit>().start(),
+                            child: const SizedBox(
+                              width: 100.0,
+                              child: Center(
+                                child: Text(
+                                  "Begin opnieuw",
+                                ),
                               ),
-                            ),
-                          )),
-                    ),
+                            )),
+                      ),
                     Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -103,26 +104,34 @@ class MyApp extends StatelessWidget {
                                 onPressed: () =>
                                     context.read<QuestionCubit>().start(),
                                 child: const Text("Start")),
+                          const SizedBox(
+                            height: 20,
+                          ),
                           if (state is QuestionLoaded &&
                               state is! LastAnswerGiven)
-                            Row(
+                            ButtonBar(
+                              alignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 for (var i in state.assignment.multiplication
                                     .answerOptions())
                                   Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(4.0),
                                     child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          shape: const StadiumBorder(),
+                                        ),
                                         onPressed: () => context
                                             .read<QuestionCubit>()
                                             .giveAnswer(i),
                                         child: SizedBox(
-                                          width: 100.0,
+                                          width: 70.0,
+                                          height: 70.0,
                                           child: Center(
                                             child: Text(
                                               i.toString(),
                                               style:
-                                                  const TextStyle(fontSize: 72),
+                                                  const TextStyle(fontSize: 36),
                                             ),
                                           ),
                                         )),

@@ -25,10 +25,6 @@ class ScoreCubit extends Cubit<int> {
       if (questionState is FirstQuestion) {
         emit(0);
       }
-
-      if (questionState is QuestionReset) {
-        emit(0);
-      }
     });
   }
 

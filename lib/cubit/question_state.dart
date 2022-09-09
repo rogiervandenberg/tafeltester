@@ -5,8 +5,6 @@ abstract class QuestionState {}
 
 class QuestionInitial extends QuestionState {}
 
-class QuestionReset extends QuestionState {}
-
 class QuestionLoaded extends QuestionState {
   final Assignment assignment;
   QuestionLoaded(this.assignment);

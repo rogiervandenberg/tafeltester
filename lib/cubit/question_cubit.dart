@@ -75,7 +75,6 @@ class QuestionCubit extends Cubit<QuestionState> {
 
   void _reset() {
     multiplications = [];
-    emit(QuestionReset());
   }
 
   @override
