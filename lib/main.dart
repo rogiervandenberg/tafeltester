@@ -117,7 +117,9 @@ class MyApp extends StatelessWidget {
                                   const Padding(
                                     padding: EdgeInsets.all(16.0),
                                     child: Text(
-                                        "Met deze app kun je je tafels heel gemakkelijk oefenen. Stel linksboven bij het tandwiel in welke tafels je precies wilt, of begin direct:"),
+                                      "Met deze app kun je je tafels heel gemakkelijk oefenen. Stel linksboven bij het tandwiel in welke tafels je precies wilt, of begin direct:",
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
                                   ElevatedButton(
                                       style: ElevatedButton.styleFrom(

@@ -26,7 +26,11 @@ class Configuration extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: IconButton(
-        icon: const Icon(Icons.settings),
+        icon: const Icon(
+          Icons.settings,
+          size: 36,
+          color: Color(0x8a000000),
+        ),
         onPressed: () {
           // when raised button is pressed
           // we display showModalBottomSheet
