@@ -11,7 +11,7 @@ class QuestionCubit extends Cubit<QuestionState> {
   List<Multiplication> multiplications = [];
   late Multiplication currentExercise;
 
-  List<int> possibleTables = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 25];
+  // List<int> possibleTables = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 25];
 
   void setMultiplications() {
     // List<int> tablesToPractice = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -56,7 +56,7 @@ class QuestionCubit extends Cubit<QuestionState> {
   }
 
   void start() {
-    reset();
+    _reset();
     setMultiplications();
     // changeQuestion(previousWasCorrect: true);
     currentExercise = multiplications.removeLast();
@@ -66,7 +66,7 @@ class QuestionCubit extends Cubit<QuestionState> {
     )));
   }
 
-  void reset() {
+  void _reset() {
     emit(QuestionReset());
   }
 }

@@ -25,32 +25,66 @@ class Configuration extends StatelessWidget {
 
               // Returning SizedBox instead of a Container
               return SizedBox(
-                height: 500,
+                height: 400,
                 child: Center(
                   child: BlocBuilder<SettingsCubit, SettingsState>(
                     bloc: cubit,
                     builder: (context, state) {
-                      return Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          for (var k in state.settings.tables.keys)
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ElevatedButton(
-                                  onPressed: () => context
-                                      .read<SettingsCubit>()
-                                      .updateTableSetting(k, true),
-                                  child: SizedBox(
-                                    width: 100.0,
-                                    child: Center(
-                                      child: Text(
-                                        k.toString(),
-                                        style: const TextStyle(fontSize: 72),
+                      return SizedBox(
+                        child: Wrap(
+                          children: [
+                            for (var k in state.settings.tables.keys)
+                              Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: state.settings.tables[k]!
+                                    ? ElevatedButton(
+                                        onPressed: () =>
+                                            cubit.updateTableSetting(k),
+                                        style: ElevatedButton.styleFrom(
+                                            shape: const CircleBorder(),
+                                            padding: const EdgeInsets.all(28),
+                                            primary: Colors.green),
+                                        child: SizedBox(
+                                          width: 60,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                k.toString(),
+                                                style: const TextStyle(
+                                                    fontSize: 48),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    : OutlinedButton(
+                                        onPressed: () =>
+                                            cubit.updateTableSetting(k),
+                                        style: OutlinedButton.styleFrom(
+                                          shape: const CircleBorder(),
+                                          padding: const EdgeInsets.all(28),
+                                          // primary: Colors.green
+                                        ),
+                                        child: SizedBox(
+                                          width: 60,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                k.toString(),
+                                                style: const TextStyle(
+                                                    fontSize: 48),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  )),
-                            ),
-                        ],
+                              ),
+                          ],
+                        ),
                       );
                     },
                   ),

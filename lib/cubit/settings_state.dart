@@ -7,5 +7,6 @@ abstract class SettingsState {
 }
 
 class NewSettings extends SettingsState {
-  const NewSettings(settings) : super(settings);
+  final Settings newSettings;
+  const NewSettings(this.newSettings) : super(newSettings);
 }
