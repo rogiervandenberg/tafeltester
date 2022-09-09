@@ -6,6 +6,8 @@ import 'package:tafeltester/cubit/score_cubit.dart';
 import 'package:tafeltester/cubit/settings_cubit.dart';
 import 'package:tafeltester/score.dart';
 
+import 'package:animate_do/animate_do.dart';
+
 import 'configuration.dart';
 
 void main() {
@@ -67,11 +69,25 @@ class MyApp extends StatelessWidget {
                   child: Stack(
                     children: [
                       if (state is QuestionLoaded && state is! LastAnswerGiven)
-                        LinearProgressIndicator(
-                          value: state.assignment.progress,
-                          semanticsLabel: 'Linear progress indicator',
-                          color: Colors.grey,
+                        TweenAnimationBuilder<double>(
+                          duration: const Duration(milliseconds: 250),
+                          curve: Curves.easeInOut,
+                          tween: Tween<double>(
+                            begin: 0,
+                            end: state.assignment.progress,
+                          ),
+                          builder: (context, value, _) =>
+                              LinearProgressIndicator(
+                            minHeight: 8.0,
+                            value: value,
+                            color: Colors.grey,
+                          ),
                         ),
+                      // LinearProgressIndicator(
+                      //   minHeight: 8.0,
+                      //   value: state.assignment.progress,
+                      //   color: Colors.grey,
+                      // ),
                       Positioned(
                         top: 24.0,
                         left: 16.0,
@@ -104,12 +120,14 @@ class MyApp extends StatelessWidget {
                             // Score(),
                             if (state is QuestionLoaded &&
                                 state is! LastAnswerGiven)
-                              Text(
-                                state.assignment.toString(),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayLarge!
-                                    .apply(fontFamily: "Caveat"),
+                              FadeIn(
+                                child: Text(
+                                  state.assignment.toString(),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .displayLarge!
+                                      .apply(fontFamily: "Caveat"),
+                                ),
                               ),
                             if (state is QuestionInitial)
                               Column(
@@ -166,24 +184,28 @@ class MyApp extends StatelessWidget {
                               ),
 
                             if (state is LastAnswerGiven)
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      "Klaar!",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .displaySmall,
-                                    ),
-                                    Text(
-                                      textAlign: TextAlign.center,
-                                      "Goed bezig! Zojuist heb je ${state.assignment.totalAmount} tafelsommen gedaan! Blijf zo oefenen!",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium,
-                                    ),
-                                  ],
+                              ElasticIn(
+                                duration: const Duration(milliseconds: 800),
+                                delay: const Duration(milliseconds: 200),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        "Klaar!",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .displaySmall,
+                                      ),
+                                      Text(
+                                        textAlign: TextAlign.center,
+                                        "Goed bezig! Zojuist heb je ${state.assignment.totalAmount} tafelsommen gedaan! Blijf zo oefenen!",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                           ],

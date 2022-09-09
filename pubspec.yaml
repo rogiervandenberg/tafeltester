@@ -38,6 +38,7 @@ dependencies:
   flutter_bloc: ^8.1.1
   meta: ^1.7.0
   shared_preferences: ^2.0.15
+  animate_do: ^2.1.0
 
 dev_dependencies:
   flutter_test:
