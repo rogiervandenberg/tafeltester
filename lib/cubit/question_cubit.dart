@@ -6,6 +6,7 @@ import 'package:tafeltester/cubit/settings_cubit.dart';
 import 'package:tafeltester/models/multiplication.dart';
 
 import '../models/assignment.dart';
+import '../models/settings.dart';
 
 part 'question_state.dart';
 
@@ -15,13 +16,19 @@ class QuestionCubit extends Cubit<QuestionState> {
   List<Multiplication> multiplications = [];
   late Multiplication currentExercise;
 
-  List<int> tablesToPractice = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  late List<int> tablesToPractice;
 
   QuestionCubit({required this.settingsCubit}) : super(QuestionInitial()) {
+    setTablesToPractice();
+
     settingsSubscription = settingsCubit.stream.listen((settingsState) {
-      tablesToPractice = settingsState.settings.toArray();
+      tablesToPractice = settingsState.settings.tablesToArray();
       start();
     });
+  }
+
+  Future<void> setTablesToPractice() async {
+    tablesToPractice = await Settings.getSavedTables();
   }
 
   void setMultiplications() {

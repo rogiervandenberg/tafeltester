@@ -11,6 +11,18 @@ class SettingsCubit extends Cubit<SettingsState> {
 
   SettingsCubit() : super(NewSettings(Settings(tables: tables))) {
     currentTables = tables;
+    setTablesToPractice();
+  }
+
+  Future<void> setTablesToPractice() async {
+    var savedTables = await Settings.getSavedTables();
+    currentTables.forEach((key, value) {
+      if (savedTables.contains(key)) {
+        currentTables[key] = true;
+      } else {
+        currentTables[key] = false;
+      }
+    });
   }
 
   void updateTableSetting(int table) {
@@ -23,6 +35,16 @@ class SettingsCubit extends Cubit<SettingsState> {
     if (kDebugMode) {
       print("New Settings: $currentTables");
     }
+
+    List<int> arr = [];
+
+    tables.forEach((key, value) {
+      if (value) {
+        arr.add(key);
+      }
+    });
+
+    Settings.setSavedTables(arr);
 
     emit(NewSettings(Settings(tables: currentTables)));
   }
