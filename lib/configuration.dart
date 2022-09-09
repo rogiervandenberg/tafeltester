@@ -28,7 +28,6 @@ class Configuration extends StatelessWidget {
       child: IconButton(
         icon: const Icon(
           Icons.settings,
-          size: 36,
           color: Color(0x8a000000),
         ),
         onPressed: () {

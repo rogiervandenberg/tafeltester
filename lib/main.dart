@@ -73,8 +73,8 @@ class MyApp extends StatelessWidget {
                           color: Colors.grey,
                         ),
                       Positioned(
-                        top: 0,
-                        left: 0,
+                        top: 24.0,
+                        left: 16.0,
                         child: Configuration(
                             cubit: BlocProvider.of<SettingsCubit>(context)),
                       ),
@@ -151,7 +151,7 @@ class MyApp extends StatelessWidget {
                                               .read<QuestionCubit>()
                                               .giveAnswer(i),
                                           child: SizedBox(
-                                            width: 70.0,
+                                            width: 75.0,
                                             height: 70.0,
                                             child: Center(
                                               child: Text(
