@@ -34,18 +34,18 @@ class MyApp extends StatelessWidget {
         ),
         home: MultiBlocProvider(
           providers: [
+            BlocProvider<SettingsCubit>(
+              lazy: false,
+              create: (context) => SettingsCubit(),
+            ),
             BlocProvider<QuestionCubit>(
               lazy: false,
-              create: (context) => QuestionCubit(),
+              create: (context) => QuestionCubit(
+                  settingsCubit: BlocProvider.of<SettingsCubit>(context)),
             ),
             BlocProvider<ScoreCubit>(
               lazy: false,
               create: (context) => ScoreCubit(
-                  questionCubit: BlocProvider.of<QuestionCubit>(context)),
-            ),
-            BlocProvider<SettingsCubit>(
-              lazy: false,
-              create: (context) => SettingsCubit(
                   questionCubit: BlocProvider.of<QuestionCubit>(context)),
             ),
           ],

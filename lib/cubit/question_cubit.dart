@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
+import 'package:tafeltester/cubit/settings_cubit.dart';
 import 'package:tafeltester/models/multiplication.dart';
 
 import '../models/assignment.dart';
@@ -7,17 +10,21 @@ import '../models/assignment.dart';
 part 'question_state.dart';
 
 class QuestionCubit extends Cubit<QuestionState> {
-  QuestionCubit() : super(QuestionInitial());
+  final SettingsCubit settingsCubit;
+  late StreamSubscription settingsSubscription;
   List<Multiplication> multiplications = [];
   late Multiplication currentExercise;
 
-  // List<int> possibleTables = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 25];
+  List<int> tablesToPractice = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  QuestionCubit({required this.settingsCubit}) : super(QuestionInitial()) {
+    settingsSubscription = settingsCubit.stream.listen((settingsState) {
+      tablesToPractice = settingsState.settings.toArray();
+      start();
+    });
+  }
 
   void setMultiplications() {
-    // List<int> tablesToPractice = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    List<int> tablesToPractice = [3, 2, 5];
-    // List<int> tablesToPractice = [1];
-
     for (var table in tablesToPractice) {
       for (var i = 1; i <= 10; i++) {
         multiplications.add(
@@ -67,6 +74,13 @@ class QuestionCubit extends Cubit<QuestionState> {
   }
 
   void _reset() {
+    multiplications = [];
     emit(QuestionReset());
+  }
+
+  @override
+  Future<void> close() {
+    settingsSubscription.cancel();
+    return super.close();
   }
 }
