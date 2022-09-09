@@ -145,7 +145,16 @@ class MyApp extends StatelessWidget {
                                       ),
                                       onPressed: () =>
                                           context.read<QuestionCubit>().start(),
-                                      child: const Text("Start")),
+                                      child: const SizedBox(
+                                        width: 100.0,
+                                        height: 84.0,
+                                        child: Center(
+                                          child: Text(
+                                            "Start",
+                                            style: TextStyle(fontSize: 24),
+                                          ),
+                                        ),
+                                      )),
                                 ],
                               ),
                             const SizedBox(
