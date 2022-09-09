@@ -66,8 +66,8 @@ class MyApp extends StatelessWidget {
                   child: Stack(
                     children: [
                       if (state is QuestionLoaded)
-                        const LinearProgressIndicator(
-                          value: 0.5,
+                        LinearProgressIndicator(
+                          value: state.assignment.progress,
                           semanticsLabel: 'Linear progress indicator',
                           color: Colors.grey,
                         ),
@@ -113,8 +113,8 @@ class MyApp extends StatelessWidget {
                             if (state is QuestionInitial)
                               Column(
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(16.0),
+                                  const Padding(
+                                    padding: EdgeInsets.all(16.0),
                                     child: Text(
                                         "Met deze app kun je je tafels heel gemakkelijk oefenen. Stel linksboven bij het tandwiel in welke tafels je precies wilt, of begin direct:"),
                                   ),
@@ -162,7 +162,27 @@ class MyApp extends StatelessWidget {
                                 ],
                               ),
 
-                            if (state is LastAnswerGiven) const Text("Klaar"),
+                            if (state is LastAnswerGiven)
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "Klaar!",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displaySmall,
+                                    ),
+                                    Text(
+                                      textAlign: TextAlign.center,
+                                      "Goed bezig! Zojuist heb je ${state.assignment.totalAmount} tafelsommen gedaan! Blijf zo oefenen!",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                    ),
+                                  ],
+                                ),
+                              ),
                           ],
                         ),
                       ),

@@ -18,6 +18,8 @@ class QuestionCubit extends Cubit<QuestionState> {
 
   late List<int> tablesToPractice;
 
+  late int totalAmount;
+
   QuestionCubit({required this.settingsCubit}) : super(QuestionInitial()) {
     setTablesToPractice();
 
@@ -39,32 +41,42 @@ class QuestionCubit extends Cubit<QuestionState> {
       }
     }
     multiplications.shuffle();
+    totalAmount = multiplications.length;
   }
 
   void changeQuestion({required bool previousWasCorrect}) {
     if (multiplications.isNotEmpty) {
       currentExercise = multiplications.removeLast();
-      emit(AnswerGiven(Assignment(
-        multiplication: currentExercise,
-        previousWasCorrect: previousWasCorrect,
-      )));
+      emit(
+        AnswerGiven(
+          Assignment(
+              multiplication: currentExercise,
+              previousWasCorrect: previousWasCorrect,
+              progress: ((10 * tablesToPractice.length.toDouble()) -
+                      multiplications.length -
+                      1) /
+                  10,
+              totalAmount: totalAmount),
+        ),
+      );
     } else {
       emit(LastAnswerGiven(Assignment(
-        multiplication: currentExercise,
-        previousWasCorrect: previousWasCorrect,
-      )));
+          multiplication: currentExercise,
+          previousWasCorrect: previousWasCorrect,
+          progress: 1.0,
+          totalAmount: totalAmount)));
     }
   }
 
   void giveAnswer(int answer) {
     if (answer != currentExercise.solution) {
       // Wrong answer
-      // ScoreCubit().decrement();
+
       multiplications.add(currentExercise);
       multiplications.shuffle();
+      totalAmount++;
       changeQuestion(previousWasCorrect: false);
     } else {
-      // ScoreCubit().increment();
       changeQuestion(previousWasCorrect: true);
     }
   }
@@ -75,9 +87,10 @@ class QuestionCubit extends Cubit<QuestionState> {
     // changeQuestion(previousWasCorrect: true);
     currentExercise = multiplications.removeLast();
     emit(FirstQuestion(Assignment(
-      multiplication: currentExercise,
-      previousWasCorrect: true,
-    )));
+        multiplication: currentExercise,
+        previousWasCorrect: true,
+        progress: 0.0,
+        totalAmount: totalAmount)));
   }
 
   void _reset() {
