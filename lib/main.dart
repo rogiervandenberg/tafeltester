@@ -151,13 +151,13 @@ class MyApp extends StatelessWidget {
                                               .read<QuestionCubit>()
                                               .giveAnswer(i),
                                           child: SizedBox(
-                                            width: 75.0,
-                                            height: 70.0,
+                                            width: 68.0,
+                                            height: 76.0,
                                             child: Center(
                                               child: Text(
                                                 i.toString(),
                                                 style: const TextStyle(
-                                                    fontSize: 36),
+                                                    fontSize: 32),
                                               ),
                                             ),
                                           )),
