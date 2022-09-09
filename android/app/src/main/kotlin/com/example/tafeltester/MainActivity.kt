@@ -1,4 +1,4 @@
-package com.example.tafeltester
+package com.rogiervandenberg.tafeltester
 
 import io.flutter.embedding.android.FlutterActivity
 

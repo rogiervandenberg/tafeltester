@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Tafel tester',
         // darkTheme: ThemeData.dark(),
         theme: ThemeData(
           colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.green),
@@ -62,97 +62,112 @@ class MyApp extends StatelessWidget {
                 //   // the App.build method, and use it to set our appbar title.
                 //   title: const Text("Tafels!"),
                 // ),
-                body: Stack(
-                  children: [
-                    const LinearProgressIndicator(
-                      value: 0.5,
-                      semanticsLabel: 'Linear progress indicator',
-                      color: Colors.grey,
-                    ),
-                    Positioned(
-                      top: 0,
-                      left: 0,
-                      child: Configuration(
-                          cubit: BlocProvider.of<SettingsCubit>(context)),
-                    ),
-                    const Positioned(
-                      top: 16.0,
-                      right: 16.0,
-                      child: Score(),
-                    ),
-                    if (state is QuestionLoaded)
+                body: SafeArea(
+                  child: Stack(
+                    children: [
+                      if (state is QuestionLoaded)
+                        const LinearProgressIndicator(
+                          value: 0.5,
+                          semanticsLabel: 'Linear progress indicator',
+                          color: Colors.grey,
+                        ),
                       Positioned(
-                        bottom: 16.0,
-                        right: 16.0,
-                        child: TextButton(
-                            onPressed: () =>
-                                context.read<QuestionCubit>().start(),
-                            child: const Center(
-                              child: Text(
-                                "Begin opnieuw",
+                        top: 0,
+                        left: 0,
+                        child: Configuration(
+                            cubit: BlocProvider.of<SettingsCubit>(context)),
+                      ),
+                      if (state is QuestionLoaded)
+                        const Positioned(
+                          top: 16.0,
+                          right: 16.0,
+                          child: Score(),
+                        ),
+                      if (state is QuestionLoaded)
+                        Positioned(
+                          bottom: 16.0,
+                          right: 16.0,
+                          child: TextButton(
+                              onPressed: () =>
+                                  context.read<QuestionCubit>().start(),
+                              child: const Center(
+                                child: Text(
+                                  "Begin opnieuw",
+                                ),
+                              )),
+                        ),
+                      Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // Score(),
+                            if (state is QuestionLoaded &&
+                                state is! LastAnswerGiven)
+                              Text(
+                                state.assignment.toString(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .displayLarge!
+                                    .apply(fontFamily: "Caveat"),
                               ),
-                            )),
-                      ),
-                    Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // Score(),
-                          if (state is QuestionLoaded &&
-                              state is! LastAnswerGiven)
-                            Text(
-                              state.assignment.toString(),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .displayLarge!
-                                  .apply(fontFamily: "Caveat"),
-                            ),
-                          if (state is QuestionInitial ||
-                              state is LastAnswerGiven)
-                            TextButton(
-                                onPressed: () =>
-                                    context.read<QuestionCubit>().start(),
-                                child: const Text("Start")),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          if (state is QuestionLoaded &&
-                              state is! LastAnswerGiven)
-                            ButtonBar(
-                              alignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                for (var i in state.assignment.multiplication
-                                    .answerOptions())
+                            if (state is QuestionInitial)
+                              Column(
+                                children: [
                                   Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          shape: const StadiumBorder(),
-                                        ),
-                                        onPressed: () => context
-                                            .read<QuestionCubit>()
-                                            .giveAnswer(i),
-                                        child: SizedBox(
-                                          width: 70.0,
-                                          height: 70.0,
-                                          child: Center(
-                                            child: Text(
-                                              i.toString(),
-                                              style:
-                                                  const TextStyle(fontSize: 36),
-                                            ),
-                                          ),
-                                        )),
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Text(
+                                        "Met deze app kun je je tafels heel gemakkelijk oefenen. Stel linksboven bij het tandwiel in welke tafels je precies wilt, of begin direct:"),
                                   ),
-                              ],
+                                  ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        shape: const StadiumBorder(),
+                                      ),
+                                      onPressed: () =>
+                                          context.read<QuestionCubit>().start(),
+                                      child: const Text("Start")),
+                                ],
+                              ),
+                            const SizedBox(
+                              height: 20,
                             ),
+                            if (state is QuestionLoaded &&
+                                state is! LastAnswerGiven)
+                              ButtonBar(
+                                alignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  for (var i in state.assignment.multiplication
+                                      .answerOptions())
+                                    Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            shape: const StadiumBorder(),
+                                          ),
+                                          onPressed: () => context
+                                              .read<QuestionCubit>()
+                                              .giveAnswer(i),
+                                          child: SizedBox(
+                                            width: 70.0,
+                                            height: 70.0,
+                                            child: Center(
+                                              child: Text(
+                                                i.toString(),
+                                                style: const TextStyle(
+                                                    fontSize: 36),
+                                              ),
+                                            ),
+                                          )),
+                                    ),
+                                ],
+                              ),
 
-                          if (state is LastAnswerGiven) const Text("Klaar"),
-                        ],
+                            if (state is LastAnswerGiven) const Text("Klaar"),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },

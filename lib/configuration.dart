@@ -62,10 +62,10 @@ class Configuration extends StatelessWidget {
                                               onPressed: () =>
                                                   cubit.updateTableSetting(k),
                                               style: ElevatedButton.styleFrom(
-                                                  shape: const CircleBorder(),
-                                                  padding:
-                                                      const EdgeInsets.all(24),
-                                                  primary: Colors.green),
+                                                shape: const CircleBorder(),
+                                                padding:
+                                                    const EdgeInsets.all(18),
+                                              ),
                                               child: buttonContents(k),
                                             )
                                           : OutlinedButton(
@@ -74,7 +74,7 @@ class Configuration extends StatelessWidget {
                                               style: OutlinedButton.styleFrom(
                                                 shape: const CircleBorder(),
                                                 padding:
-                                                    const EdgeInsets.all(24),
+                                                    const EdgeInsets.all(18),
                                                 // primary: Colors.green
                                               ),
                                               child: buttonContents(k),
