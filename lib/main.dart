@@ -31,10 +31,11 @@ class MyApp extends StatelessWidget {
 
           // Define the default `TextTheme`. Use this to specify the default
           // text styling for headlines, titles, bodies of text, and more.
-          // textTheme: const TextTheme(
-          //   displayLarge:
-          //       TextStyle(fontSize: 96.0, fontWeight: FontWeight.bold),
-          // ),
+          textTheme: const TextTheme(
+            bodyMedium: TextStyle(fontSize: 16.0),
+            displayLarge:
+                TextStyle(fontSize: 96.0, fontWeight: FontWeight.bold),
+          ),
         ),
         home: MultiBlocProvider(
           providers: [
@@ -65,7 +66,7 @@ class MyApp extends StatelessWidget {
                 body: SafeArea(
                   child: Stack(
                     children: [
-                      if (state is QuestionLoaded)
+                      if (state is QuestionLoaded && state is! LastAnswerGiven)
                         LinearProgressIndicator(
                           value: state.assignment.progress,
                           semanticsLabel: 'Linear progress indicator',
