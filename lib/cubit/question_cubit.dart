@@ -52,10 +52,9 @@ class QuestionCubit extends Cubit<QuestionState> {
           Assignment(
               multiplication: currentExercise,
               previousWasCorrect: previousWasCorrect,
-              progress: ((10 * tablesToPractice.length.toDouble()) -
-                      multiplications.length -
-                      1) /
-                  10,
+              progress:
+                  ((totalAmount.toDouble()) - multiplications.length - 1) /
+                      totalAmount,
               totalAmount: totalAmount),
         ),
       );
