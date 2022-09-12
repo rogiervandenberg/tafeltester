@@ -120,14 +120,12 @@ class MyApp extends StatelessWidget {
                             // Score(),
                             if (state is QuestionLoaded &&
                                 state is! LastAnswerGiven)
-                              FadeIn(
-                                child: Text(
-                                  state.assignment.toString(),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .displayLarge!
-                                      .apply(fontFamily: "Caveat"),
-                                ),
+                              Text(
+                                state.assignment.toString(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .displayLarge!
+                                    .apply(fontFamily: "Caveat"),
                               ),
                             if (state is QuestionInitial)
                               Column(
