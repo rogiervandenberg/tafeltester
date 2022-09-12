@@ -35,7 +35,10 @@ class QuestionCubit extends Cubit<QuestionState> {
 
   void setMultiplications() {
     for (var table in tablesToPractice) {
-      for (var i = 1; i <= 10; i++) {
+      // Change into...
+      // for (var i = 1; i <= 10; i++) {
+      // ..if you also want 1x... and 10x... multiplications
+      for (var i = 2; i <= 9; i++) {
         multiplications.add(
             Multiplication(factorX: i, factorY: table, solution: i * table));
       }
