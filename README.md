@@ -18,7 +18,7 @@ Just run it: `flutter run`
 
 ### Deployment
 
-`firebase deploy`
+`flutter build web && firebase deploy`
 
 ## About the implementation
 
