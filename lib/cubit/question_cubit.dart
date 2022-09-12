@@ -25,7 +25,7 @@ class QuestionCubit extends Cubit<QuestionState> {
 
     settingsSubscription = settingsCubit.stream.listen((settingsState) {
       tablesToPractice = settingsState.settings.tablesToArray();
-      start();
+      emit(QuestionInitial());
     });
   }
 
@@ -81,7 +81,7 @@ class QuestionCubit extends Cubit<QuestionState> {
   }
 
   void start() {
-    _reset();
+    _clear();
     setMultiplications();
     // changeQuestion(previousWasCorrect: true);
     currentExercise = multiplications.removeLast();
@@ -92,7 +92,7 @@ class QuestionCubit extends Cubit<QuestionState> {
         totalAmount: totalAmount)));
   }
 
-  void _reset() {
+  void _clear() {
     multiplications = [];
   }
 

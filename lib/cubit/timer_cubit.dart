@@ -3,13 +3,30 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
+import 'package:tafeltester/cubit/question_cubit.dart';
 part 'timer_state.dart';
 
 class TimerCubit extends Cubit<TimerState> {
-  TimerCubit() : super(const TimerInitial(Duration.zero));
-
+  final QuestionCubit questionCubit;
+  late StreamSubscription questionSubscription;
   Timer? durationTimer;
   Duration myDuration = Duration.zero;
+
+  TimerCubit({required this.questionCubit})
+      : super(const TimerInitial(Duration.zero)) {
+    monitorQuestionsAnswered();
+  }
+
+  StreamSubscription<QuestionState> monitorQuestionsAnswered() {
+    return questionSubscription = questionCubit.stream.listen((questionState) {
+      if (questionState is FirstQuestion) {
+        resetTimer();
+        startTimer();
+      } else if (questionState is LastAnswerGiven) {
+        stopTimer();
+      }
+    });
+  }
 
   void startTimer() {
     durationTimer =
@@ -17,7 +34,7 @@ class TimerCubit extends Cubit<TimerState> {
   }
 
   void stopTimer() {
-    durationTimer!.cancel();
+    durationTimer?.cancel();
   }
 
   void resetTimer() {
@@ -36,6 +53,7 @@ class TimerCubit extends Cubit<TimerState> {
   @override
   Future<void> close() {
     durationTimer?.cancel();
+    questionSubscription.cancel();
     return super.close();
   }
 }

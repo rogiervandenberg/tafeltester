@@ -4,9 +4,11 @@ import 'package:tafeltester/configuration.dart';
 import 'package:tafeltester/cubit/question_cubit.dart';
 import 'package:tafeltester/cubit/score_cubit.dart';
 import 'package:tafeltester/cubit/settings_cubit.dart';
+import 'package:tafeltester/cubit/timer_cubit.dart';
 import 'package:tafeltester/score.dart';
 
 import 'package:animate_do/animate_do.dart';
+import 'package:tafeltester/timer.dart';
 
 import 'configuration.dart';
 
@@ -53,6 +55,11 @@ class MyApp extends StatelessWidget {
             BlocProvider<ScoreCubit>(
               lazy: false,
               create: (context) => ScoreCubit(
+                  questionCubit: BlocProvider.of<QuestionCubit>(context)),
+            ),
+            BlocProvider<TimerCubit>(
+              lazy: false,
+              create: (context) => TimerCubit(
                   questionCubit: BlocProvider.of<QuestionCubit>(context)),
             ),
           ],
@@ -112,6 +119,12 @@ class MyApp extends StatelessWidget {
                                   "Begin opnieuw",
                                 ),
                               )),
+                        ),
+                      if (state is QuestionLoaded)
+                        const Positioned(
+                          bottom: 0,
+                          left: 16.0,
+                          child: Timer(),
                         ),
                       Center(
                         child: Column(
